@@ -46,4 +46,15 @@ public class Category {
         this.name = name;
         this.parent = parent;
     }
+
+    /**
+     * 연관관계 편의 메소드
+     */
+    public void addCategoryItem(CategoryItem categoryItem){
+        this.categoryItems.add(categoryItem);
+    }
+
+    public void removeCategoryItem(CategoryItem categoryItem){
+        this.categoryItems.remove(categoryItem);
+    }
 }

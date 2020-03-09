@@ -1,5 +1,6 @@
 package com.jypshop.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,5 +32,21 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
+    @Builder
+    public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 
+    /**
+     * 연관관계 편의 메소드
+     */
+    public void addCategoryItem(CategoryItem categoryItem){
+        this.categoryItems.add(categoryItem);
+    }
+
+    public void removeCategoryItem(CategoryItem categoryItem){
+        this.categoryItems.remove(categoryItem);
+    }
 }
