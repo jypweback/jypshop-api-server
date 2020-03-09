@@ -5,6 +5,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Created by qkrwpdud1@gmail.com on 2020/03/07
+ * Github : http://github.com/jypweback
+ */
+
 @Getter
 @NoArgsConstructor
 @Entity
