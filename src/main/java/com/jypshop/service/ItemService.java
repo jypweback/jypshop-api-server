@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by qkrwpdud1@gmail.com on 2020/03/09
  * Github : http://github.com/jypweback
@@ -28,7 +31,7 @@ public class ItemService {
     public ItemDto createItem(ItemDto itemDto){
 
         Item item = itemRepository.save(itemDto.toEntity());
-        CategoryItem categoryItem = new CategoryItem();
+        CategoryItem categoryItem = CategoryItem.builder().build();
 
         for(Long categoryId : itemDto.getCategoryIds()){
             Category category =  categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalArgumentException(categoryId + "카테고리가 존재하지 않습니다."));
@@ -37,8 +40,15 @@ public class ItemService {
             categoryItem.setItem(item);
         }
 
-        return null;
+        return convertEntityToDto(item);
+    }
 
+    @Transactional
+    public ItemDto updateItem(ItemDto itemDto){
+
+        Item item = getItem(itemDto.getId());
+        item.update(itemDto.toEntity());
+        return null;
     }
 
     private Item getItem(Long id){
@@ -46,15 +56,23 @@ public class ItemService {
     }
 
     private ItemDto convertEntityToDto(Item item){
-//        return ItemDto
-//                .builder()
-//                .id(item.getId())
-//                .name(item.getName())
-//                .price(item.getPrice())
-//                .stockQuantity(item.getStockQuantity())
-//                .categoryId(item.get)
 
-        return null;
+        List<CategoryItem> categoryItems = item.getCategoryItems();
+        List<Long> categoryIds = new ArrayList<>();
+        for(CategoryItem categoryItem : categoryItems){
+            if(categoryItem.getCategory() != null){
+                categoryIds.add(categoryItem.getCategory().getId());
+            }
+        }
+
+        return ItemDto
+                .builder()
+                .id(item.getId())
+                .name(item.getName())
+                .price(item.getPrice())
+                .stockQuantity(item.getStockQuantity())
+                .categoryIds(categoryIds)
+                .build();
     }
 
 

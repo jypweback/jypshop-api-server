@@ -29,7 +29,7 @@ public class Item {
 
     private int stockQuantity;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
     @Builder
@@ -39,14 +39,9 @@ public class Item {
         this.stockQuantity = stockQuantity;
     }
 
-    /**
-     * 연관관계 편의 메소드
-     */
-    public void addCategoryItem(CategoryItem categoryItem){
-        this.categoryItems.add(categoryItem);
-    }
-
-    public void removeCategoryItem(CategoryItem categoryItem){
-        this.categoryItems.remove(categoryItem);
+    public void update(Item item){
+        this.name = item.getName();
+        this.price = item.getPrice();
+        this.stockQuantity = item.getStockQuantity();
     }
 }

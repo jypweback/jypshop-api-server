@@ -12,7 +12,6 @@ import javax.persistence.*;
  */
 
 @Getter
-@NoArgsConstructor
 @Entity
 public class CategoryItem {
 
@@ -21,13 +20,16 @@ public class CategoryItem {
     @Column(name = "category_item_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @Builder
+    public CategoryItem(){ }
 
     /**
      * 연관관계 편의 메소드
@@ -35,21 +37,21 @@ public class CategoryItem {
     public void setCategory(Category category){
 
         if(this.category != null){
-            this.category.removeCategoryItem(this);
+            this.category.getCategoryItems().remove(this);
         }
 
         this.category = category;
-        this.category.addCategoryItem(this);
+        category.getCategoryItems().add(this);
     }
 
     public void setItem(Item item){
 
         if(this.item != null){
-            this.item.removeCategoryItem(this);
+            this.item.getCategoryItems().remove(this);
         }
 
         this.item = item;
-        this.item.addCategoryItem(this);
+        item.getCategoryItems().add(this);
     }
 
 }

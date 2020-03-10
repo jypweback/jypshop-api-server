@@ -30,7 +30,7 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
     public void connectParentCategory(Category parent){
@@ -45,16 +45,5 @@ public class Category {
     public Category(String name, Category parent) {
         this.name = name;
         this.parent = parent;
-    }
-
-    /**
-     * 연관관계 편의 메소드
-     */
-    public void addCategoryItem(CategoryItem categoryItem){
-        this.categoryItems.add(categoryItem);
-    }
-
-    public void removeCategoryItem(CategoryItem categoryItem){
-        this.categoryItems.remove(categoryItem);
     }
 }
