@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Description :
  */
 public interface CategoryItemRepository extends JpaRepository<CategoryItem, Long> {
+
 }

@@ -4,6 +4,7 @@ import com.jypshop.domain.Category;
 import com.jypshop.domain.CategoryItem;
 import com.jypshop.domain.Item;
 import com.jypshop.dto.ItemDto;
+import com.jypshop.repository.CategoryItemRepository;
 import com.jypshop.repository.CategoryRepository;
 import com.jypshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +28,20 @@ public class ItemService {
 
     private final CategoryRepository categoryRepository;
 
+    private final CategoryItemRepository categoryItemRepository;
+
     @Transactional
     public ItemDto createItem(ItemDto itemDto){
 
         Item item = itemRepository.save(itemDto.toEntity());
-        CategoryItem categoryItem = CategoryItem.builder().build();
 
         for(Long categoryId : itemDto.getCategoryIds()){
-            Category category =  categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalArgumentException(categoryId + "카테고리가 존재하지 않습니다."));
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalArgumentException(categoryId + "카테고리가 존재하지 않습니다."));
 
+            CategoryItem categoryItem = CategoryItem.builder().build();
             categoryItem.setCategory(category);
             categoryItem.setItem(item);
+            categoryItemRepository.save(categoryItem);
         }
 
         return convertEntityToDto(item);
@@ -45,9 +49,10 @@ public class ItemService {
 
     @Transactional
     public ItemDto updateItem(ItemDto itemDto){
-
         Item item = getItem(itemDto.getId());
         item.update(itemDto.toEntity());
+
+
         return null;
     }
 
@@ -74,6 +79,4 @@ public class ItemService {
                 .categoryIds(categoryIds)
                 .build();
     }
-
-
 }
