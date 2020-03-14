@@ -43,5 +43,4 @@ public class Member {
             this.address = updateMember.getAddress();
         }
     }
-
 }

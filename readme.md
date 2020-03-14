@@ -17,6 +17,8 @@
 - gradle 4.0
 - jpa
 - swagger
+- h2 local 설치
+
 
 
 
