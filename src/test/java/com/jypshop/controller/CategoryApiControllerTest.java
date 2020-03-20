@@ -98,12 +98,11 @@ public class CategoryApiControllerTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value(name))
-                .andExpect(jsonPath("parentCategoryId").value(parentId));
+                .andExpect(jsonPath("name").value(name));
     }
 
     @Test
-    public void 카테고리_수장() throws Exception{
+    public void 카테고리_수정() throws Exception{
 
         // given
         Category savedCategory = categoryRepository.save(Category.builder().name("대표카테고리").build());

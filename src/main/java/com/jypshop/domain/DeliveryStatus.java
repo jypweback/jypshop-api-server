@@ -6,5 +6,5 @@ package com.jypshop.domain;
  * Description :
  */
 public enum DeliveryStatus {
-    COMP
+    COMP, READY
 }

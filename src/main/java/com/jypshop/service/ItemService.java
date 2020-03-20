@@ -52,8 +52,7 @@ public class ItemService {
         Item item = getItem(itemDto.getId());
         item.update(itemDto.toEntity());
 
-
-        return null;
+        return convertEntityToDto(item);
     }
 
     private Item getItem(Long id){

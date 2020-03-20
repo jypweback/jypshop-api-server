@@ -23,13 +23,6 @@ public class CategoryService {
     public CategoryDto createCategory(CategoryDto categoryDto){
 
         Category category = categoryRepository.save(categoryDto.toEntity());
-
-        /** 부모 카테고리 연결 */
-        if(categoryDto.getParentCategoryId() != null){
-            Category parent = getCategory(categoryDto.getParentCategoryId());
-            category.connectParentCategory(parent);
-        }
-
         return convertEntityToDto(category);
     }
 
@@ -37,19 +30,12 @@ public class CategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto){
         Category category = getCategory(categoryDto.getCategoryId());
         category.update(categoryDto.toEntity());
-
-        /** 부모 카테고리 연결 */
-        if(categoryDto.getParentCategoryId() != null){
-            Category parent = getCategory(categoryDto.getParentCategoryId());
-            category.connectParentCategory(parent);
-        }
-
+        
         return convertEntityToDto(category);
     }
 
     @Transactional
     public void removeCategory(Long id){
-        // TODO 하위 카테고리도 같이 삭제되도록 작업해야됨
         categoryRepository.delete(getCategory(id));
     }
 
@@ -71,7 +57,6 @@ public class CategoryService {
         return CategoryDto
                 .builder()
                 .categoryId(category.getId())
-                .parentCategoryId(category.getParent() != null ? category.getParent().getId() : null)
                 .name(category.getName())
                 .build();
     }

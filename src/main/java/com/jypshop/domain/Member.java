@@ -39,8 +39,6 @@ public class Member {
 
     public void update(Member updateMember){
         this.name = updateMember.getName();
-        if(updateMember.getAddress() != null){
-            this.address = updateMember.getAddress();
-        }
+        this.address = updateMember.getAddress();
     }
 }

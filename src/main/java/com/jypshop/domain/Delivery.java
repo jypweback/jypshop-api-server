@@ -1,5 +1,6 @@
 package com.jypshop.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,5 +34,11 @@ public class Delivery {
     public void setOrder(Order order){
         this.order = order;
         order.setDelivery(this);
+    }
+
+    @Builder
+    public Delivery(Address address){
+        this.address = address;
+        this.status = DeliveryStatus.READY;
     }
 }

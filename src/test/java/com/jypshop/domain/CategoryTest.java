@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,23 +44,23 @@ public class CategoryTest {
         assertThat(category.getName()).isEqualTo(categoryName);
     }
 
-    @Test
-    @Transactional
-    public void 하위카테고리등록_상위카테고리연결(){
-
-        // given
-        String childCategoryName = "대표1_카테고리_자식";
-
-        Category savedParent = categoryRepository.save(Category.builder().name("대표1_카테고리").build());
-        Category savedChild = categoryRepository.save(Category.builder().name(childCategoryName).build());
-        savedChild.connectParentCategory(savedParent);
-
-        // when
-        Category child = categoryRepository.findById(savedChild.getId()).get();
-
-        // then
-        assertThat(child.getName()).isEqualTo(childCategoryName);
-
-    }
+//    @Test
+//    @Transactional
+//    public void 하위카테고리등록_상위카테고리연결(){
+//
+//        // given
+//        String childCategoryName = "대표1_카테고리_자식";
+//
+//        Category savedParent = categoryRepository.save(Category.builder().name("대표1_카테고리").build());
+//        Category savedChild = categoryRepository.save(Category.builder().name(childCategoryName).build());
+//        savedChild.connectParentCategory(savedParent);
+//
+//        // when
+//        Category child = categoryRepository.findById(savedChild.getId()).get();
+//
+//        // then
+//        assertThat(child.getName()).isEqualTo(childCategoryName);
+//
+//    }
 
 }

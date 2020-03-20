@@ -26,16 +26,8 @@ public class Category {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryItem> categoryItems = new ArrayList<>();
-
-    public void connectParentCategory(Category parent){
-        this.parent = parent;
-    }
 
     public void update(Category category){
         this.name = category.getName();
@@ -44,6 +36,8 @@ public class Category {
     @Builder
     public Category(String name, Category parent) {
         this.name = name;
-        this.parent = parent;
     }
+
+    // TODO 카테고리 트리구조 작업필요
+
 }
